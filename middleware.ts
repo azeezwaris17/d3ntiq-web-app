@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 // Routes that require authentication — any path starting with these
 const PATIENT_ROUTES = ['/patient'];
-const PROVIDER_ROUTES = ['/provider'];
+const PROVIDER_ROUTES = ['/provider/'];
 
 // Routes that are always public
 const PUBLIC_PREFIXES = [
