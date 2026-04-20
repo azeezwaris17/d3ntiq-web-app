@@ -1,0 +1,391 @@
+{
+  "teeth": [
+    {
+      "fdi": "28",
+      "name": "tooth_28",
+      "position": [-3.75, 1, 3.515625],
+      "rotation": [1.3381322074634454e-16, -0.41481428312106017, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "28",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "27",
+      "name": "tooth_27",
+      "position": [-3.25, 1, 2.640625],
+      "rotation": [1.3308306807237176e-16, -0.40217373021607405, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "27",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "26",
+      "name": "tooth_26",
+      "position": [-2.75, 1, 1.890625],
+      "rotation": [1.3185728348017243e-16, -0.3797242106703846, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "26",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "25",
+      "name": "tooth_25",
+      "position": [-2.25, 1, 1.265625],
+      "rotation": [1.30121498548923e-16, -0.34476059797381464, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "25",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "24",
+      "name": "tooth_24",
+      "position": [-1.75, 1, 0.765625],
+      "rotation": [1.2798152217084242e-16, -0.2946857946812249, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "24",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "23",
+      "name": "tooth_23",
+      "position": [-1.25, 1, 0.390625],
+      "rotation": [1.2571404816627593e-16, -0.22785704871709975, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "23",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "22",
+      "name": "tooth_22",
+      "position": [-0.75, 1, 0.140625],
+      "rotation": [1.2376119832231338e-16, -0.14487450220711356, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "22",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "21",
+      "name": "tooth_21",
+      "position": [-0.25, 1, 0.015625],
+      "rotation": [1.2261671410381564e-16, -0.04980301971324904, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "21",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "11",
+      "name": "tooth_11",
+      "position": [0.25, 1, 0.015625],
+      "rotation": [1.2261671410381564e-16, 0.04980301971324904, 3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "11",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "12",
+      "name": "tooth_12",
+      "position": [0.75, 1, 0.140625],
+      "rotation": [1.2376119832231338e-16, 0.14487450220711356, 3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "12",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "13",
+      "name": "tooth_13",
+      "position": [1.25, 1, 0.390625],
+      "rotation": [1.2571404816627593e-16, 0.22785704871709975, 3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "13",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "14",
+      "name": "tooth_14",
+      "position": [1.75, 1, 0.765625],
+      "rotation": [1.2798152217084242e-16, 0.2946857946812249, 3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "14",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "15",
+      "name": "tooth_15",
+      "position": [2.25, 1, 1.265625],
+      "rotation": [1.30121498548923e-16, 0.34476059797381464, 3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "15",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "16",
+      "name": "tooth_16",
+      "position": [2.75, 1, 1.890625],
+      "rotation": [1.3185728348017243e-16, 0.3797242106703846, 3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "16",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "17",
+      "name": "tooth_17",
+      "position": [3.25, 1, 2.640625],
+      "rotation": [1.3308306807237176e-16, 0.40217373021607405, 3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "17",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "18",
+      "name": "tooth_18",
+      "position": [3.75, 1, 3.515625],
+      "rotation": [1.3381322074634454e-16, 0.41481428312106017, 3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "18",
+        "originalScale": 1,
+        "isUpper": true
+      }
+    },
+    {
+      "fdi": "38",
+      "name": "tooth_38",
+      "position": [-3.75, -1, 3.515625],
+      "rotation": [-3.141592653589793, 0.41481428312106017, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "38",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "37",
+      "name": "tooth_37",
+      "position": [-3.25, -1, 2.640625],
+      "rotation": [-3.141592653589793, 0.40217373021607405, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "37",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "36",
+      "name": "tooth_36",
+      "position": [-2.75, -1, 1.890625],
+      "rotation": [-3.141592653589793, 0.3797242106703846, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "36",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "35",
+      "name": "tooth_35",
+      "position": [-2.25, -1, 1.265625],
+      "rotation": [-3.141592653589793, 0.34476059797381464, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "35",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "34",
+      "name": "tooth_34",
+      "position": [-1.75, -1, 0.765625],
+      "rotation": [-3.141592653589793, 0.2946857946812249, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "34",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "33",
+      "name": "tooth_33",
+      "position": [-1.25, -1, 0.390625],
+      "rotation": [-3.141592653589793, 0.22785704871709975, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "33",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "32",
+      "name": "tooth_32",
+      "position": [-0.75, -1, 0.140625],
+      "rotation": [-3.141592653589793, 0.14487450220711356, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "32",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "31",
+      "name": "tooth_31",
+      "position": [-0.25, -1, 0.015625],
+      "rotation": [-3.141592653589793, 0.04980301971324904, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "31",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "41",
+      "name": "tooth_41",
+      "position": [0.25, -1, 0.015625],
+      "rotation": [-3.141592653589793, -0.04980301971324904, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "41",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "42",
+      "name": "tooth_42",
+      "position": [0.75, -1, 0.140625],
+      "rotation": [-3.141592653589793, -0.14487450220711356, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "42",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "43",
+      "name": "tooth_43",
+      "position": [1.25, -1, 0.390625],
+      "rotation": [-3.141592653589793, -0.22785704871709975, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "43",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "44",
+      "name": "tooth_44",
+      "position": [1.75, -1, 0.765625],
+      "rotation": [-3.141592653589793, -0.2946857946812249, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "44",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "45",
+      "name": "tooth_45",
+      "position": [2.25, -1, 1.265625],
+      "rotation": [-3.141592653589793, -0.34476059797381464, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "45",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "46",
+      "name": "tooth_46",
+      "position": [2.75, -1, 1.890625],
+      "rotation": [-3.141592653589793, -0.3797242106703846, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "46",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "47",
+      "name": "tooth_47",
+      "position": [3.25, -1, 2.640625],
+      "rotation": [-3.141592653589793, -0.40217373021607405, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "47",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    },
+    {
+      "fdi": "48",
+      "name": "tooth_48",
+      "position": [3.75, -1, 3.515625],
+      "rotation": [-3.141592653589793, -0.41481428312106017, -3.141592653589793, "XYZ"],
+      "scale": [1, 1, 1],
+      "userData": {
+        "fdi": "48",
+        "originalScale": 1,
+        "isUpper": false
+      }
+    }
+  ],
+  "version": "1.0",
+  "format": "procedural",
+  "note": "This model is generated procedurally. Use the Clinical3DDentalModel component to load it."
+}

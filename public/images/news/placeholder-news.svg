@@ -1,0 +1,20 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="newsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E74C3C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C0392B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#newsGrad)"/>
+  <g transform="translate(400, 250)">
+    <circle cx="0" cy="0" r="80" fill="white" opacity="0.2"/>
+    <rect x="-40" y="-40" width="80" height="80" rx="5" fill="white" opacity="0.9"/>
+    <rect x="-30" y="-30" width="60" height="8" fill="#E74C3C"/>
+    <rect x="-30" y="-15" width="60" height="4" fill="#E74C3C" opacity="0.6"/>
+    <rect x="-30" y="-7" width="40" height="4" fill="#E74C3C" opacity="0.6"/>
+    <rect x="-30" y="5" width="60" height="4" fill="#E74C3C" opacity="0.4"/>
+    <rect x="-30" y="13" width="50" height="4" fill="#E74C3C" opacity="0.4"/>
+    <rect x="-30" y="21" width="55" height="4" fill="#E74C3C" opacity="0.4"/>
+  </g>
+  <text x="400" y="400" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle" opacity="0.9">Industry News</text>
+</svg>
