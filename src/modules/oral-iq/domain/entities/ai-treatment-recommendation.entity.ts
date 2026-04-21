@@ -11,7 +11,8 @@ export interface SymptomSensations {
 }
 
 export interface SymptomFormData {
-  symptomType: string;
+  /** One or more symptom types selected by the patient */
+  symptomTypes: string[];
   painLevel?: number | null;
   duration?: string;
   specificSensations?: string;

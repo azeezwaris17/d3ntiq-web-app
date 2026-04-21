@@ -20,13 +20,16 @@ export interface AuthenticatedUser {
   email: string;
   role: string;
   idLabel: string;
-  // Patient fields
   phone?: string | null;
-  // Provider-only fields
+  avatarUrl?: string | null;
+  // Patient-only (null for providers)
+  patientAddress?: string | null;
+  dateOfBirth?: string | null;
+  currentProvider?: string | null;
+  // Provider-only (null for patients)
   specialty?: string | null;
   practiceName?: string | null;
   address?: string | null;
-  avatarUrl?: string | null;
 }
 
 export interface PatientInsuranceProfile {
@@ -69,6 +72,9 @@ export interface UpdatePatientProfileInput {
   lastName: string;
   email: string;
   phone?: string;
+  dateOfBirth?: Date | null;
+  address?: string;
+  currentProvider?: string;
 }
 
 export function useUpdatePatientProfile() {

@@ -4,7 +4,11 @@
  */
 
 import { gql } from '@apollo/client';
-import { AUTHENTICATED_USER_FRAGMENT } from '@/core/graphql/fragments';
+import { PATIENT_USER_FRAGMENT, PROVIDER_USER_FRAGMENT, AUTHENTICATED_USER_FRAGMENT } from '@/core/graphql/fragments';
+
+// ── Get my profile ────────────────────────────────────────────────────────────
+// Uses the full fragment — the resolver only populates fields relevant to the
+// user's role, so provider fields will be null for patients and vice versa.
 
 export const GET_MY_PROFILE_QUERY = gql`
   ${AUTHENTICATED_USER_FRAGMENT}
@@ -16,19 +20,19 @@ export const GET_MY_PROFILE_QUERY = gql`
 `;
 
 export const UPDATE_PATIENT_PROFILE_MUTATION = gql`
-  ${AUTHENTICATED_USER_FRAGMENT}
+  ${PATIENT_USER_FRAGMENT}
   mutation UpdatePatientProfile($input: UpdatePatientProfileInput!) {
     updatePatientProfile(input: $input) {
-      ...AuthenticatedUserFields
+      ...PatientUserFields
     }
   }
 `;
 
 export const UPDATE_PROVIDER_PROFILE_MUTATION = gql`
-  ${AUTHENTICATED_USER_FRAGMENT}
+  ${PROVIDER_USER_FRAGMENT}
   mutation UpdateProviderProfile($input: UpdateProviderProfileInput!) {
     updateProviderProfile(input: $input) {
-      ...AuthenticatedUserFields
+      ...ProviderUserFields
     }
   }
 `;

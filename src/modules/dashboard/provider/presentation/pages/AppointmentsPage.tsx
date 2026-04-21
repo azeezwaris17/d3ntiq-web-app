@@ -41,7 +41,7 @@ interface Appointment {
   providerPhone?: string;
   oralIQData?: {
     formData?: {
-      symptomType?: string;
+      symptomTypes?: string[];
     };
     result?: {
       matchedConditions?: Array<{ name: string }>;

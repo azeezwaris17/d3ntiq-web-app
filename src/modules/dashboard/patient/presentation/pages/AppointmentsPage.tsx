@@ -184,10 +184,10 @@ function AppointmentDetails({ appointment, onBack, onCancelClick, onRescheduleCl
                       <Text size="xs">{selectionLabels.join(', ')}</Text>
                     </Group>
                   )}
-                  {formData?.symptomType && (
+                  {formData?.symptomTypes && formData.symptomTypes.length > 0 && (
                     <Group gap="xs">
-                      <Text size="xs" fw={600} c="dimmed" style={{ minWidth: 130 }}>Symptom Type:</Text>
-                      <Text size="xs">{formData.symptomType.replace(/-/g, ' ')}</Text>
+                      <Text size="xs" fw={600} c="dimmed" style={{ minWidth: 130 }}>Symptom Types:</Text>
+                      <Text size="xs">{formData.symptomTypes.map((s: string) => s.replace(/-/g, ' ')).join(', ')}</Text>
                     </Group>
                   )}
                   {formData?.painLevel != null && (

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-import { Text, Stack, Textarea, TextInput, Button, Box, Group, Select } from '@mantine/core';
+import { Text, Stack, Textarea, TextInput, Button, Box, Group, MultiSelect } from '@mantine/core';
 import * as MantineNotifications from '@mantine/notifications';
 import { Section } from '@/shared/components/layout';
 import type { MouthModelSelection } from '@/modules/oral-iq/domain/oral-iq.types';
@@ -16,7 +16,7 @@ export interface SymptomFormStepProps {
   onSelectionChange?: (selection: MouthModelSelection) => void;
   loading?: boolean;
   initialFormData?: Partial<SymptomFormData>;
-  selectionLabels?: string[]; // human-readable labels from step 0 (e.g. ["Tooth 18", "Upper Gum"])
+  selectionLabels?: string[];
 }
 
 const symptomOptions = [
@@ -49,7 +49,7 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
 }) => {
   const form = useForm<SymptomFormData>({
     initialValues: {
-      symptomType: initialFormData.symptomType ?? '',
+      symptomTypes: initialFormData.symptomTypes ?? [],
       painLevel: initialFormData.painLevel ?? null,
       duration: initialFormData.duration ?? '',
       specificSensations: initialFormData.specificSensations ?? '',
@@ -60,9 +60,9 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
       },
     },
     validate: {
-      symptomType: (value) => {
-        const v = SymptomFormValidator.validateSymptomType(value);
-        return v.isValid ? null : v.error;
+      symptomTypes: (value) => {
+        if (!value || value.length === 0) return 'Please select at least one symptom type';
+        return null;
       },
       painLevel: (value) => {
         if (value === null || value === undefined) return null;
@@ -74,7 +74,7 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
 
   const validateForm = (): { isValid: boolean; errors: Record<string, string> } => {
     const validation = SymptomFormValidator.validateFormData({
-      symptomType: form.values.symptomType,
+      symptomTypes: form.values.symptomTypes,
       painLevel: form.values.painLevel,
       duration: form.values.duration,
       specificSensations: form.values.specificSensations,
@@ -86,6 +86,7 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
     }
     return validation;
   };
+
   const currentSelection = initialSelection;
 
   const handleSubmit = form.onSubmit((values) => {
@@ -107,7 +108,7 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
       return;
     }
     onNext({
-      symptomType: values.symptomType || '',
+      symptomTypes: values.symptomTypes,
       painLevel: values.painLevel,
       duration: values.duration || '',
       specificSensations: values.specificSensations || '',
@@ -117,8 +118,6 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
 
   return (
     <Section background="light">
-      {/* <Container size="xl" bg="#ffffff"> */}
-
       <form onSubmit={handleSubmit}>
         <Stack gap="md">
           {(currentSelection || selectionLabels.length > 0) && (
@@ -160,14 +159,16 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
 
           <Box>
             <Text size="xs" fw={600} mb={4} component="label">
-              Symptom Type
+              Symptom Types (select all that apply)
             </Text>
-            <Select
-              placeholder="Select symptom"
+            <MultiSelect
+              placeholder="Select one or more symptoms"
               data={symptomOptions}
               size="sm"
-              {...form.getInputProps('symptomType')}
-              styles={{ input: { fontSize: 13, height: 36 } }}
+              searchable
+              clearable
+              {...form.getInputProps('symptomTypes')}
+              styles={{ input: { fontSize: 13, minHeight: 36 } }}
             />
           </Box>
 
@@ -198,12 +199,15 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
             <Text size="xs" fw={600} mb={4} component="label">
               Duration
             </Text>
-            <Select
+            <MultiSelect
               placeholder="Select duration"
               data={durationOptions}
               size="sm"
+              maxValues={1}
               {...form.getInputProps('duration')}
-              styles={{ input: { fontSize: 13, height: 36 } }}
+              onChange={(values) => form.setFieldValue('duration', values[0] || '')}
+              value={form.values.duration ? [form.values.duration] : []}
+              styles={{ input: { fontSize: 13, minHeight: 36 } }}
             />
           </Box>
 
@@ -249,8 +253,6 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
           </Group>
         </Stack>
       </form>
-
-      {/* </Container> */}
     </Section>
   );
 };

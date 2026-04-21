@@ -39,8 +39,11 @@ export const PublicPageLayout: React.FC<PublicPageLayoutProps> = ({ children, cl
   // Check if current page is an oral-iq page
   const isOralIQPage = pathname?.startsWith('/oral-iq');
 
-  // Show FAQ section on most pages, but not on service detail pages or oral-iq pages
-  const showFAQSection = !isServiceDetailPage && !isOralIQPage;
+  // Check if current page is the about page
+  const isAboutPage = pathname === '/about';
+
+  // Show FAQ section on most pages, but not on service detail pages, oral-iq, or about pages
+  const showFAQSection = !isServiceDetailPage && !isOralIQPage && !isAboutPage;
 
   return (
     <div

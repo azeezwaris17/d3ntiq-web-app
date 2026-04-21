@@ -19,7 +19,7 @@ export interface AppointmentReviewStepProps {
   booking: AppointmentBookingData;
   oralIQSummary: {
     selectedAreas: string[];
-    symptomType: string;
+    symptomTypes: string[];
     painLevel?: number | null;
     duration: string;
     conditions: string[];
@@ -77,8 +77,8 @@ export function AppointmentReviewStep({
                   <Text size="xs">{oralIQSummary.selectedAreas.join(', ')}</Text>
                 </Stack>
                 <Stack gap={2}>
-                  <Text size="xs" fw={600} c="dimmed">Symptom Type:</Text>
-                  <Text size="xs">{oralIQSummary.symptomType}</Text>
+                  <Text size="xs" fw={600} c="dimmed">Symptom Types:</Text>
+                  <Text size="xs">{oralIQSummary.symptomTypes.join(', ')}</Text>
                 </Stack>
                 {oralIQSummary.painLevel !== null && oralIQSummary.painLevel !== undefined && (
                   <Stack gap={2}>

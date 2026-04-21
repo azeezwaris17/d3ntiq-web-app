@@ -366,7 +366,7 @@ export function PatientOralIQPage() {
             booking={bookingData}
             oralIQSummary={{
               selectedAreas: initialSelectionLabels,
-              symptomType: storedFormData?.symptomType ?? 'Not specified',
+              symptomTypes: storedFormData?.symptomTypes ?? [],
               painLevel: storedFormData?.painLevel,
               duration: storedFormData?.duration ?? 'Not specified',
               conditions: currentResult?.matchedConditions.map((c) => c.name) ?? [],

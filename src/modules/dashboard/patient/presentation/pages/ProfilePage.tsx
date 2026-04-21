@@ -6,6 +6,7 @@ import {
   Box, Title, Text, Tabs, Stack, TextInput, Button, Avatar,
   Group, Notification, Badge, Checkbox,
 } from '@mantine/core';
+import { DateOfBirthInput } from '@/shared/components/base/DateOfBirthInput';
 import { CheckCircle, XCircle, Camera, ArrowLeft, User, ShieldCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { InsuranceWizard } from '../components/InsuranceWizard';
@@ -19,11 +20,14 @@ function EditForm({ onBack }: { onBack: () => void }) {
   const { updatePatientProfile, loading } = useUpdatePatientProfile();
 
   const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName]   = useState('');
-  const [email, setEmail]         = useState('');
-  const [phone, setPhone]         = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
+  const [address, setAddress] = useState('');
+  const [currentProvider, setCurrentProvider] = useState('');
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [error, setError]   = useState('');
+  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
   // Pre-fill form once the profile query resolves
@@ -34,6 +38,14 @@ function EditForm({ onBack }: { onBack: () => void }) {
     setLastName(parts.slice(1).join(' '));
     setEmail(profile.email);
     setPhone(profile.phone ?? '');
+    setAddress(profile.patientAddress ?? '');
+    setCurrentProvider(profile.currentProvider ?? '');
+    if (profile.dateOfBirth) {
+      // Parse using UTC parts to avoid timezone-shift issues
+      // e.g. "1998-09-21T23:00:00.000Z" should render as Sep 21 1998, not Sep 22
+      const d = new Date(profile.dateOfBirth);
+      setDateOfBirth(new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+    }
   }, [profile]);
 
   function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -49,13 +61,16 @@ function EditForm({ onBack }: { onBack: () => void }) {
     setError('');
     setSuccess(false);
     if (!firstName.trim()) return setError('First name is required.');
-    if (!email.trim())     return setError('Email address is required.');
+    if (!email.trim()) return setError('Email address is required.');
     try {
       await updatePatientProfile({
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
         phone: phone.trim() || undefined,
+        dateOfBirth: dateOfBirth ?? undefined,
+        address: address.trim() || undefined,
+        currentProvider: currentProvider.trim() || undefined,
       });
       setSuccess(true);
       setTimeout(() => setSuccess(false), 4000);
@@ -125,12 +140,30 @@ function EditForm({ onBack }: { onBack: () => void }) {
               <Stack gap="md">
                 <TextInput label="First Name" placeholder="Enter your first name" value={firstName}
                   onChange={(e) => setFirstName(e.currentTarget.value)} required size="md" disabled={loading} />
+
                 <TextInput label="Last Name" placeholder="Enter your last name" value={lastName}
                   onChange={(e) => setLastName(e.currentTarget.value)} size="md" disabled={loading} />
+
+                <DateOfBirthInput
+                  label="Birthday"
+                  value={dateOfBirth}
+                  onChange={setDateOfBirth}
+                  size="md"
+                  disabled={loading}
+                />
+
+                <TextInput label="Address" placeholder="Enter your home address" value={address}
+                  onChange={(e) => setAddress(e.currentTarget.value)} size="md" disabled={loading} />
+
                 <TextInput label="Email" placeholder="Enter your email" type="email" value={email}
                   onChange={(e) => setEmail(e.currentTarget.value)} required size="md" disabled={loading} />
+
                 <TextInput label="Phone" placeholder="Enter your phone number" type="tel" value={phone}
                   onChange={(e) => setPhone(e.currentTarget.value)} size="md" disabled={loading} />
+
+                <TextInput label="Current Provider" placeholder="If none, type NA" value={currentProvider}
+                  onChange={(e) => setCurrentProvider(e.currentTarget.value)} size="md" disabled={loading} />
+
                 <Box mt={8}>
                   <Button type="submit" size="md" loading={loading} loaderProps={{ type: 'oval' }}
                     style={{ backgroundColor: '#2d7d9a', minWidth: 160 }}>

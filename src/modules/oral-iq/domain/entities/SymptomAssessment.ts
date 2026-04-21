@@ -1,7 +1,8 @@
 import type { MouthModelSelection } from '@/modules/oral-iq/domain/oral-iq.types';
 
 export interface SymptomFormData {
-  symptomType: string;
+  /** One or more symptom types selected by the patient (e.g. ['tooth-pain', 'swelling']) */
+  symptomTypes: string[];
   painLevel: number | null;
   duration: string;
   specificSensations: string;

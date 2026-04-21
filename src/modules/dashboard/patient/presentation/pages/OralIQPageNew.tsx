@@ -527,7 +527,7 @@ export function DashboardOralIQPage() {
                 booking={bookingData}
                 oralIQSummary={{
                   selectedAreas: selectionLabels,
-                  symptomType: formData?.symptomType ?? 'Not specified',
+                  symptomTypes: formData?.symptomTypes ?? [],
                   painLevel: formData?.painLevel,
                   duration: formData?.duration ?? 'Not specified',
                   conditions,

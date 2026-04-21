@@ -45,10 +45,16 @@ function clearAuthCookies() {
 // ── Register ──────────────────────────────────────────────────────────────────
 
 export interface RegisterInput {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   role: 'PATIENT' | 'PROVIDER';
+  // Patient-only fields
+  dateOfBirth?: Date | null;
+  patientAddress?: string;
+  currentProvider?: string;
+  // Provider-only fields
   phone?: string;
   specialty?: string;
   practiceName?: string;

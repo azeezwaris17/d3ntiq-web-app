@@ -73,7 +73,7 @@ export function formatSymptomAssessmentInput(
       userComplaint: selection.userComplaint,
     },
     formData: {
-      symptomType: formData.symptomType || '',
+      symptomTypes: formData.symptomTypes ?? [],
       painLevel: formData.painLevel,
       duration: convertDuration(formData.duration || '1 day'),
       specificSensations: formData.specificSensations || '',
@@ -100,12 +100,8 @@ export function validateSymptomAssessmentInput(input: SymptomAssessmentInput): {
   if (!input.selection.regionId) errors.push('Region ID is required');
   if (!input.selection.jaw) errors.push('Jaw position is required');
 
-  if (!input.formData.symptomType) {
-    errors.push('Symptom type is required');
-  } else if (input.formData.symptomType.length < 2) {
-    errors.push('Symptom type must be at least 2 characters');
-  } else if (input.formData.symptomType.length > 100) {
-    errors.push('Symptom type must not exceed 100 characters');
+  if (!input.formData.symptomTypes || input.formData.symptomTypes.length === 0) {
+    errors.push('At least one symptom type is required');
   }
 
   if (input.formData.painLevel !== undefined && input.formData.painLevel !== null) {

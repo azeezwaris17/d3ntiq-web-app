@@ -14,3 +14,5 @@ export { Card, CardHeader, CardBody, CardFooter } from './Card';
 export type { CardPropsExtended as CardProps } from './Card';
 export { StateHandler, CompactStateHandler } from './StateHandler';
 export type { StateHandlerProps, CompactStateHandlerProps } from './StateHandler';
+export { DateOfBirthInput } from './DateOfBirthInput';
+export type { DateOfBirthInputProps } from './DateOfBirthInput';
