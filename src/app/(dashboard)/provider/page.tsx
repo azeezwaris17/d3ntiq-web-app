@@ -1,8 +1,8 @@
 /**
- * /provider — redirect to /provider/profile (only MVP page for providers)
+ * /provider — redirect to /provider/appointments (default landing page for providers)
  */
 import { redirect } from 'next/navigation';
 
 export default function ProviderDashboardRoot() {
-  redirect('/provider/profile');
+  redirect('/provider/appointments');
 }

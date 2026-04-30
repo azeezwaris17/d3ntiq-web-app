@@ -28,12 +28,14 @@ export const Homepage: React.FC<HomepageProps> = ({ content, newsSection }) => {
       <HeroSection hero={hero} />
       <OralIQSection oralIQ={oralIQ} />
       <BrandServices
+        key="for-patients"
         badge={forPatients.badge}
         title={forPatients.title}
         description={forPatients.description}
         features={forPatients.features}
       />
       <BrandServices
+        key="for-providers"
         badge={forProviders.badge}
         title={forProviders.title}
         description={forProviders.description}

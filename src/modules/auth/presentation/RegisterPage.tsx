@@ -157,20 +157,6 @@ export function RegisterPage() {
               value={email} onChange={(e) => setEmail(e.currentTarget.value)}
               required size="md" disabled={isDisabled} />
 
-            <PasswordInput label="Password" placeholder="At least 8 characters"
-              value={password} onChange={(e) => setPassword(e.currentTarget.value)}
-              required size="md" disabled={isDisabled} />
-
-            <PasswordInput label="Confirm Password" placeholder="Re-enter your password"
-              value={confirmPassword} onChange={(e) => setConfirmPassword(e.currentTarget.value)}
-              required size="md" disabled={isDisabled} />
-
-            {role === 'patient' && (
-              <TextInput label="Current Provider" placeholder="If none, type NA"
-                value={currentProvider} onChange={(e) => setCurrentProvider(e.currentTarget.value)}
-                required size="md" disabled={isDisabled} />
-            )}
-
             {role === 'provider' && (
               <>
                 <TextInput label="Phone Number" placeholder="Enter your phone number" type="tel"
@@ -186,6 +172,20 @@ export function RegisterPage() {
                   value={providerAddress} onChange={(e) => setProviderAddress(e.currentTarget.value)}
                   required size="md" disabled={isDisabled} />
               </>
+            )}
+
+            <PasswordInput label="Password" placeholder="At least 8 characters"
+              value={password} onChange={(e) => setPassword(e.currentTarget.value)}
+              required size="md" disabled={isDisabled} />
+
+            <PasswordInput label="Confirm Password" placeholder="Re-enter your password"
+              value={confirmPassword} onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+              required size="md" disabled={isDisabled} />
+
+            {role === 'patient' && (
+              <TextInput label="Current Provider" placeholder="If none, type NA"
+                value={currentProvider} onChange={(e) => setCurrentProvider(e.currentTarget.value)}
+                required size="md" disabled={isDisabled} />
             )}
 
             <Button type="submit" fullWidth size="md" loading={loading} disabled={success}

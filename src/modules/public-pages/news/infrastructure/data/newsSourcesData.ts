@@ -23,14 +23,6 @@ export const newsSources: NewsSource[] = [
     description: 'Health begins in the mouth - Expert dental advice from Dr. Mark Burhenne',
   },
   {
-    id: 'drbicuspid',
-    name: 'DrBicuspid.com',
-    logoUrl: '/images/news-sources/drbicuspid-logo.png',
-    websiteUrl: 'https://www.drbicuspid.com',
-    rssUrl: 'https://www.drbicuspid.com/feed', // ✅ VERIFIED WORKING
-    description: 'Frequent news articles on clinical care, business trends, and new technology',
-  },
-  {
     id: 'dental-economics',
     name: 'Dental Economics',
     logoUrl: '/images/news-sources/dental-economics-logo.png',

@@ -23,12 +23,6 @@ export interface PersonalizedRecommendationsStepProps {
   isActionLoading?: boolean;
 }
 
-const ToothIcon = ({ size = 20 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <path d="M12 2C9.5 2 7 3.5 7 6.5C7 8 7 10 7 12C7 14 6 16 6 18C6 20 7 22 9 22C10 22 10.5 21 11 20C11.5 19 12 18 12 18C12 18 12.5 19 13 20C13.5 21 14 22 15 22C17 22 18 20 18 18C18 16 17 14 17 12C17 10 17 8 17 6.5C17 3.5 14.5 2 12 2Z" fill="#495057" />
-  </svg>
-);
-
 export const PersonalizedRecommendationsStep: React.FC<PersonalizedRecommendationsStepProps> = ({
   recommendation, onBack, onLocateProvider, onBookNow,
   isLoading = false, error = null, onRetry, isActionLoading = false,
@@ -69,46 +63,29 @@ export const PersonalizedRecommendationsStep: React.FC<PersonalizedRecommendatio
     <Section background="light">
       <Container size="md" className="py-10">
         <Stack gap="lg">
-          {recommendation.concerns && (
-            <Box p="md" bg="#E8F4F8" style={{ border: '1px solid #548CA1', borderRadius: 8 }}>
-              <Text size="sm" fw={600} mb="xs">Assessment Summary</Text>
-              <Text size="xs" lh={1.6} c="dimmed">{recommendation.concerns}</Text>
-              {recommendation.severityLevel && (
-                <Text size="xs" mt="xs" fs="italic" c="dimmed">
-                  Severity: {recommendation.severityLevel.replace(/_/g, ' ')}
-                </Text>
-              )}
-            </Box>
-          )}
-
-          {recommendation.specialties.length > 0 && (
-            <Box>
-              <Text size="sm" fw={600} mb="sm">Recommended Specialists</Text>
-              <Stack gap="md">
-                {recommendation.specialties.map((specialty) => (
-                  <Group key={specialty.id} wrap="nowrap" align="flex-start" gap="sm">
-                    <Box p={8} bg="#F1F3F5" style={{ borderRadius: 6 }}>
-                      <ToothIcon size={16} />
-                    </Box>
-                    <Box style={{ flex: 1 }}>
-                      <Text fw={600} size="xs" mb={2}>{specialty.name}</Text>
-                      <Text size="xs" c="#548CA1">{specialty.description}</Text>
-                    </Box>
-                  </Group>
-                ))}
-              </Stack>
-            </Box>
-          )}
-
           <Box>
             <Stack gap="xs">
+              {/* Specialties come first as numbered items — show description only */}
+              {recommendation.specialties.map((specialty, idx) => (
+                <Group key={specialty.id} gap="xs" align="flex-start">
+                  <Box
+                    w={24} h={24}
+                    style={{ borderRadius: '50%', backgroundColor: '#548CA1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}
+                  >
+                    <Text size="xs" fw={700} c="white">{idx + 1}</Text>
+                  </Box>
+                  <Text size="xs" lh={1.6} c="dimmed" style={{ flex: 1 }}>{specialty.description}</Text>
+                </Group>
+              ))}
+
+              {/* Remaining recommendations continue the numbering */}
               {recommendation.recommendations.map((step, idx) => (
                 <Group key={idx} gap="xs" align="flex-start">
                   <Box
                     w={24} h={24}
                     style={{ borderRadius: '50%', backgroundColor: '#548CA1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}
                   >
-                    <Text size="xs" fw={700} c="white">{idx + 1}</Text>
+                    <Text size="xs" fw={700} c="white">{recommendation.specialties.length + idx + 1}</Text>
                   </Box>
                   <Text size="xs" lh={1.6} c="dimmed" style={{ flex: 1 }}>{step}</Text>
                 </Group>

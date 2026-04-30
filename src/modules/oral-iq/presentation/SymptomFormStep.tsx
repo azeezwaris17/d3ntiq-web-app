@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-import { Text, Stack, Textarea, TextInput, Button, Box, Group, MultiSelect } from '@mantine/core';
+import { Text, Stack, Textarea, TextInput, Button, Box, Group, MultiSelect, Select } from '@mantine/core';
 import * as MantineNotifications from '@mantine/notifications';
 import { Section } from '@/shared/components/layout';
 import type { MouthModelSelection } from '@/modules/oral-iq/domain/oral-iq.types';
@@ -168,7 +168,13 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
               searchable
               clearable
               {...form.getInputProps('symptomTypes')}
-              styles={{ input: { fontSize: 13, minHeight: 36 } }}
+              styles={{
+                input: {
+                  fontSize: 13,
+                  minHeight: 36,
+                  '--input-bd-focus': '#ced4da',
+                } as React.CSSProperties,
+              }}
             />
           </Box>
 
@@ -199,15 +205,15 @@ export const SymptomFormStep: React.FC<SymptomFormStepProps> = ({
             <Text size="xs" fw={600} mb={4} component="label">
               Duration
             </Text>
-            <MultiSelect
+            <Select
               placeholder="Select duration"
               data={durationOptions}
               size="sm"
-              maxValues={1}
-              {...form.getInputProps('duration')}
-              onChange={(values) => form.setFieldValue('duration', values[0] || '')}
-              value={form.values.duration ? [form.values.duration] : []}
-              styles={{ input: { fontSize: 13, minHeight: 36 } }}
+              clearable
+              value={form.values.duration || null}
+              onChange={(value) => form.setFieldValue('duration', value || '')}
+              error={form.errors.duration}
+              styles={{ input: { fontSize: 13, height: 36 } }}
             />
           </Box>
 

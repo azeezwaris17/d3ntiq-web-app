@@ -53,9 +53,8 @@ const newsletter = {
 const bottomBar = {
   copyrightText: '© 2025 D3NTIQ – All rights reserved',
   links: [
-    { href: '/privacy', label: 'Privacy' },
-    { href: '/terms', label: 'Terms' },
-    { href: '/sitemap', label: 'Sitemap' },
+    { href: '/docs/Privacy_Policy.pdf', label: 'Privacy', newTab: true },
+    { href: '/docs/Terms_of_Service.pdf', label: 'Terms', newTab: true },
   ],
 };
 
@@ -238,8 +237,9 @@ export const PublicFooter: React.FC<PublicFooterProps> = ({ className = '' }) =>
               {bottomBar.links.map((link, index) => (
                 <React.Fragment key={link.href}>
                   <Anchor
-                    component={Link}
                     href={link.href}
+                    target={link.newTab ? '_blank' : undefined}
+                    rel={link.newTab ? 'noopener noreferrer' : undefined}
                     size="xs"
                     style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}
                   >

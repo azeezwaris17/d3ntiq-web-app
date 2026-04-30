@@ -65,7 +65,7 @@ export function LoginPage() {
       sessionStorage.removeItem('redirectAfterLogin');
 
       if (role === 'provider') {
-        router.push('/provider/profile');
+        router.push('/provider/appointments');
       } else {
         // Only honour the redirect if it's a dashboard path, not an external page
         const safePath = redirectTo?.startsWith('/patient') ? redirectTo : '/patient/oral-iq';
