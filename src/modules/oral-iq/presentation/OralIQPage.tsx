@@ -52,7 +52,7 @@ const STEP_META: Record<number, { title: string; subtitle?: string; description:
     description: '',
   },
   3: {
-    title: 'Treatment Options',
+    title: 'Possible Treatment Options',
     description: '',
   },
   4: {
@@ -218,7 +218,9 @@ export const OralIQPage: React.FC<OralIQPageProps> = ({
         .then(() => {
           stepHandlers.set(2);
         })
-        .catch((err) => console.error('Failed to process assessment:', err));
+        .catch((_err) => {
+          // Error is already shown via the error/validationErrors state — no action needed here
+        });
     },
     [loading, selection, submitAssessment, stepHandlers, result, dentalMapSelected, dentalMapGroups, originalDentalMapSelected, originalDentalMapGroups, originalFormData]
   );

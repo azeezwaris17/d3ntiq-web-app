@@ -37,6 +37,7 @@ export const PROVIDER_USER_FRAGMENT = gql`
     practiceName
     address
     avatarUrl
+    workingHours
   }
 `;
 

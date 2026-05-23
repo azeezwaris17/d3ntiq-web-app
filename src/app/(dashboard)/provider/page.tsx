@@ -1,8 +1,9 @@
 /**
- * /provider — redirect to /provider/appointments (default landing page for providers)
+ * /provider — Provider dashboard home page.
+ * Shows today's schedule, stats, clinical tools, and notifications.
  */
-import { redirect } from 'next/navigation';
+import { ProviderDashboardHomePage } from '@/modules/dashboard/provider/presentation/pages/DashboardHomePage';
 
 export default function ProviderDashboardRoot() {
-  redirect('/provider/appointments');
+  return <ProviderDashboardHomePage />;
 }

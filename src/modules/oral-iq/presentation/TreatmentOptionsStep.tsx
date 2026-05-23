@@ -181,16 +181,6 @@ export const TreatmentOptionsStep: React.FC<TreatmentOptionsStepProps> = ({
             </Text>
           </Box>
 
-          {/* Heading */}
-          <Stack gap={4}>
-            <Title order={4} fw={600} fz={{ base: 16, md: 18 }}>
-              Recommended Treatment Options
-            </Title>
-            <Text size="xs" c="dimmed">
-              For each matched condition, treatment options are listed per possible cause.
-            </Text>
-          </Stack>
-
           {/* Condition groups */}
           {conditionGroups.map((conditionGroup) => (
             <Stack key={conditionGroup.conditionName} gap="md">

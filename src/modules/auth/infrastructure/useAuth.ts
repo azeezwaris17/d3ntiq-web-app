@@ -72,6 +72,7 @@ export function useRegister() {
     if (result.error) throw result.error;
     if (!result.data) throw new Error('No data returned from server.');
     localStorage.setItem('accessToken', result.data.register.accessToken);
+    localStorage.setItem('userRole', input.role);
     setAuthCookies(input.role);
     return result.data.register;
   }
@@ -98,6 +99,7 @@ export function useLogin() {
     if (result.error) throw result.error;
     if (!result.data) throw new Error('No data returned from server.');
     localStorage.setItem('accessToken', result.data.login.accessToken);
+    localStorage.setItem('userRole', input.role);
     setAuthCookies(input.role);
     return result.data.login;
   }
@@ -181,6 +183,8 @@ export function useLogout() {
   async function logout(): Promise<void> {
     await mutate();
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('tokenExpiresAt');
+    localStorage.removeItem('userRole');
     clearAuthCookies();
   }
 

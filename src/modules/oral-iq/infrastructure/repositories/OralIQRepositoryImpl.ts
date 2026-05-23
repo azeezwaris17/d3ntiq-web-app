@@ -9,7 +9,7 @@ import type {
   SymptomAssessmentInput,
   OralIQAssessment,
 } from '../../domain/entities/ai-treatment-recommendation.entity';
-import { apolloClient } from '@/core/config/graphql.config';
+import { apolloClient } from '@/core/graphql/apollo-client';
 import { ASSESS_ORAL_HEALTH } from '../services/graphql-queries';
 import { logger } from '@/core/logging';
 

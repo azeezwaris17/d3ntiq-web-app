@@ -34,10 +34,8 @@ export class NewsRepository implements INewsRepository {
       }
 
       // Fallback to manual data if RSS fails
-      console.warn('RSS feeds returned no articles, using fallback data');
       return fallbackNewsData;
-    } catch (error) {
-      console.error('Error fetching news articles:', error);
+    } catch {
       return fallbackNewsData;
     }
   }

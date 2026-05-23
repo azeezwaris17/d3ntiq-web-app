@@ -30,6 +30,8 @@ export interface AuthenticatedUser {
   specialty?: string | null;
   practiceName?: string | null;
   address?: string | null;
+  /** Weekly working hours — provider only. Shape: { monday: { enabled, startTime, endTime }, ... } */
+  workingHours?: Record<string, { enabled: boolean; startTime: string; endTime: string }> | null;
 }
 
 export interface PatientInsuranceProfile {
@@ -103,6 +105,7 @@ export interface UpdateProviderProfileInput {
   specialty?: string;
   practiceName?: string;
   address?: string;
+  workingHours?: Record<string, { enabled: boolean; startTime: string; endTime: string }>;
 }
 
 export function useUpdateProviderProfile() {
@@ -119,6 +122,55 @@ export function useUpdateProviderProfile() {
   }
 
   return { updateProviderProfile, loading, error };
+}
+
+// ── Update provider availability (working hours only) ─────────────────────────
+//
+// The availability tab only needs to send workingHours — it doesn't touch
+// name, email, or other profile fields. We reuse the same updateProviderProfile
+// mutation but only pass the workingHours field alongside the required fields
+// read from the current profile.
+
+export function useUpdateProviderAvailability() {
+  const { profile } = useGetMyProfile();
+  const [mutate, { loading, error }] = useMutation<
+    { updateProviderProfile: AuthenticatedUser },
+    { input: UpdateProviderProfileInput }
+  >(UPDATE_PROVIDER_PROFILE_MUTATION);
+
+  /**
+   * Saves the working hours schedule to the database.
+   * All other profile fields are preserved from the current profile.
+   */
+  async function saveAvailability(
+    workingHours: Record<string, { enabled: boolean; startTime: string; endTime: string }>
+  ): Promise<void> {
+    if (!profile) throw new Error('Profile not loaded yet.');
+
+    // Split fullName back into firstName / lastName for the required fields
+    const parts = profile.fullName.split(' ');
+    const firstName = parts[0] ?? '';
+    const lastName  = parts.slice(1).join(' ');
+
+    const result = await mutate({
+      variables: {
+        input: {
+          firstName,
+          lastName,
+          email:        profile.email,
+          phone:        profile.phone ?? undefined,
+          specialty:    profile.specialty ?? undefined,
+          practiceName: profile.practiceName ?? undefined,
+          address:      profile.address ?? undefined,
+          workingHours,
+        },
+      },
+    });
+
+    if (result.error) throw new Error(result.error.message);
+  }
+
+  return { saveAvailability, loading, error };
 }
 
 // ── Submit insurance profile ──────────────────────────────────────────────────
@@ -152,4 +204,23 @@ export function useSubmitInsuranceProfile() {
   }
 
   return { submitInsuranceProfile, loading, error };
+}
+
+// ── Change password ───────────────────────────────────────────────────────────
+
+import { CHANGE_PASSWORD_MUTATION } from './dashboard.graphql';
+
+export function useChangePassword() {
+  const [mutate, { loading, error }] = useMutation<
+    { changePassword: boolean },
+    { input: { currentPassword: string; newPassword: string } }
+  >(CHANGE_PASSWORD_MUTATION);
+
+  async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
+    const result = await mutate({ variables: { input: { currentPassword, newPassword } } });
+    if (result.error) throw new Error(result.error.message);
+    if (!result.data?.changePassword) throw new Error('Password change failed. Please try again.');
+  }
+
+  return { changePassword, loading, error };
 }

@@ -60,15 +60,19 @@ export function LoginPage() {
       await login({ email: email.trim(), password, role: role.toUpperCase() as 'PATIENT' | 'PROVIDER' });
       setSuccess(true);
 
-      // Only use redirectAfterLogin if it points to a dashboard page (set by providers page flow)
+      // Only use redirectAfterLogin if it points to a dashboard page.
+      // This is set by the public Oral IQ flow when a patient selects a provider
+      // before logging in — we want to drop them back into that flow, not the home page.
       const redirectTo = sessionStorage.getItem('redirectAfterLogin');
       sessionStorage.removeItem('redirectAfterLogin');
 
       if (role === 'provider') {
-        router.push('/provider/appointments');
+        // Providers always land on the dashboard home page after login
+        router.push('/provider');
       } else {
-        // Only honour the redirect if it's a dashboard path, not an external page
-        const safePath = redirectTo?.startsWith('/patient') ? redirectTo : '/patient/oral-iq';
+        // Patients: honour the redirect only if it's a specific dashboard path
+        // (set by the public Oral IQ → login flow). Otherwise go to dashboard home.
+        const safePath = redirectTo?.startsWith('/patient/') ? redirectTo : '/patient';
         router.push(safePath);
       }
     } catch (err) {

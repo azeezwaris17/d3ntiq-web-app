@@ -47,8 +47,13 @@ export const LandingPage: React.FC = () => {
           {/* Heading */}
           <Stack gap={8} align="center">
             <Title order={1} style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', fontWeight: 700, color: '#1E293B', textAlign: 'center', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-              Welcome to DENT{' '}
-              <Text component="span" style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', color: '#38BDF8', fontWeight: 600 }}>IQ</Text>
+              Welcome to{' '}
+              <Text component="span" style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', color: '#1E293B', fontWeight: 700 }}>
+                D3NT
+              </Text>
+              <Text component="sup" style={{ fontSize: 'clamp(1rem, 3vw, 2rem)', color: '#38BDF8', fontWeight: 600, verticalAlign: 'super' }}>
+                IQ
+              </Text>
             </Title>
             <Text style={{ color: '#64748B', textAlign: 'center', fontSize: 'clamp(1rem, 1.5vw, 1.25rem)', maxWidth: '480px', lineHeight: 1.5 }}>
               Choose your experience to get started with our intelligent dental solution.

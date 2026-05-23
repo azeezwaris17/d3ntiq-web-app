@@ -22,6 +22,7 @@ export interface AppointmentBookingData {
   date: Date;
   time: string;
   appointmentType: 'Routine Cleaning' | 'Follow-up' | 'Symptom';
+  patientNotes: string;
 }
 
 export interface AppointmentBookingStepProps {
@@ -32,6 +33,7 @@ export interface AppointmentBookingStepProps {
   initialDate?: Date;
   initialTime?: string;
   initialType?: typeof APPOINTMENT_TYPES[number];
+  initialNotes?: string;
   /** If true, shows "Reschedule" instead of "Next" */
   isReschedule?: boolean;
 }
@@ -135,14 +137,13 @@ function MonthCalendar({ year, month, selectedDate, onSelect, minDate }: MonthCa
   );
 }
 
-export function AppointmentBookingStep({ provider, onConfirm, onBack, initialDate, initialTime, initialType, isReschedule = false }: AppointmentBookingStepProps) {
+export function AppointmentBookingStep({ provider, onConfirm, onBack, initialDate, initialTime, initialType, initialNotes, isReschedule = false }: AppointmentBookingStepProps) {
   const theme = useMantineTheme();
   const colors = themeColors(theme);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Start calendar at the month of the initial date (or current month)
   const [calendarStart, setCalendarStart] = useState(() => {
     const d = initialDate || new Date();
     return { year: d.getFullYear(), month: d.getMonth() };
@@ -151,6 +152,8 @@ export function AppointmentBookingStep({ provider, onConfirm, onBack, initialDat
   const [selectedDate, setSelectedDate] = useState<Date | null>(initialDate || null);
   const [selectedTime, setSelectedTime] = useState<string | null>(initialTime || null);
   const [appointmentType, setAppointmentType] = useState<typeof APPOINTMENT_TYPES[number]>(initialType || 'Symptom');
+  // Notes the patient wants to share with the provider before the appointment
+  const [patientNotes, setPatientNotes] = useState(initialNotes || '');
 
   // Track if user changed anything from the initial values
   const hasChanged = isReschedule && (
@@ -182,7 +185,7 @@ export function AppointmentBookingStep({ provider, onConfirm, onBack, initialDat
 
   function handleConfirm() {
     if (!selectedDate || !selectedTime) return;
-    onConfirm({ provider, date: selectedDate, time: selectedTime, appointmentType });
+    onConfirm({ provider, date: selectedDate, time: selectedTime, appointmentType, patientNotes });
   }
 
   const isReady = selectedDate && selectedTime;
@@ -273,6 +276,34 @@ export function AppointmentBookingStep({ provider, onConfirm, onBack, initialDat
               </Button>
             ))}
           </Group>
+        </Box>
+
+        {/* Patient notes — optional message to the provider */}
+        <Box mb="xl">
+          <Text fw={600} size="sm" mb={4}>Notes for the Provider <Text component="span" size="xs" c="dimmed">(optional)</Text></Text>
+          <Text size="xs" c="dimmed" mb={8}>
+            Share anything the provider should know before your appointment — e.g. dental anxiety, a specific concern, or a follow-up reason.
+          </Text>
+          <textarea
+            value={patientNotes}
+            onChange={(e) => setPatientNotes(e.target.value)}
+            placeholder="e.g. I have dental anxiety and prefer a gentle approach..."
+            rows={3}
+            maxLength={500}
+            style={{
+              width:           '100%',
+              padding:         '10px 12px',
+              borderRadius:    8,
+              border:          '1px solid #e2e8f0',
+              fontSize:        13,
+              color:           '#1e293b',
+              backgroundColor: '#f8fafc',
+              resize:          'vertical',
+              fontFamily:      'inherit',
+              outline:         'none',
+            }}
+          />
+          <Text size="xs" c="dimmed" ta="right" mt={4}>{patientNotes.length}/500</Text>
         </Box>
 
         {/* Selected summary */}

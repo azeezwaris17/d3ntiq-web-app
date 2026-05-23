@@ -1,3 +1,17 @@
+// #region File Overview
+/**
+ * eslint.config.mjs
+ *
+ * Configures ESLint — the code quality tool that catches bugs and bad practices
+ * before the code runs. Uses the ESLint v9 flat config format.
+ *
+ * Three rule sets applied:
+ *   - Next.js recommended + Core Web Vitals rules
+ *   - TypeScript rules (no unused vars, no implicit any, prefer const)
+ *   - Ignores (node_modules, .next, build output)
+ */
+// #endregion
+
 // eslint.config.mjs — ESLint v9 flat config for Next.js 15
 import pluginNext from '@next/eslint-plugin-next';
 import tsPlugin from '@typescript-eslint/eslint-plugin';

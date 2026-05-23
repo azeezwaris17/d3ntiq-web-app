@@ -1,0 +1,48 @@
+# #region File Overview
+# =============================================================================
+# Dockerfile.dev.debian — Development container for the D3NTIQ Next.js frontend.
+#
+# Builds a Debian-based Node 20 image, installs dependencies, and starts the
+# Next.js dev server with Turbopack. Source files are mounted as a volume at
+# runtime so changes on the host reflect instantly inside the container.
+#
+# Used by: docker-compose.full.dev.yml (frontend-app service)
+# Runs on: http://localhost:3000
+# =============================================================================
+# #endregion
+
+FROM node:20-bullseye-slim
+
+# Install only what's needed (git removed — not required at runtime)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies
+RUN npm install
+
+# Copy configuration files
+COPY tsconfig.json ./
+COPY next.config.ts ./
+COPY postcss.config.mjs ./
+COPY tailwind.config.ts ./
+
+# Copy source code (will be overridden by volume mount in development)
+COPY src ./src
+COPY public ./public
+
+# Expose port
+EXPOSE 3000
+
+# Health check — ping the homepage to confirm Next.js is responding
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000', (r) => {process.exit(r.statusCode < 500 ? 0 : 1)})"
+
+# Start development server with Turbopack for faster compilation
+CMD ["npm", "run", "dev", "--", "--turbopack"]

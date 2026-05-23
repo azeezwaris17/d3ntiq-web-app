@@ -4,7 +4,7 @@ import { z } from 'zod';
 const envSchema = z.object({
   NEXT_PUBLIC_APP_NAME: z.string().default('DENTIQ'),
   NEXT_PUBLIC_APP_ENV: z.enum(['development', 'staging', 'production']).default('development'),
-  NEXT_PUBLIC_API_URL: z.string().url().default('http://localhost:3000/api'),
+  NEXT_PUBLIC_API_URL: z.string().url().default('http://localhost:4000'),
   NEXT_PUBLIC_API_VERSION: z.string().default('v1'),
   NEXT_PUBLIC_ENABLE_3D_VIEWER: z
     .string()

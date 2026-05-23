@@ -281,11 +281,11 @@ export const OralIQAssessmentSection: React.FC<OralIQAssessmentSectionProps> = (
           </Box>
         )}
 
-        {/* STEP 3: Treatment Options */}
+        {/* STEP 3: Possible Treatment Options */}
         {step === 3 && (
           <Stack gap="xl" maw={1000} mx="auto">
             <Title order={2} fw={700}>
-              Treatment Options
+              Possible Treatment Options
             </Title>
             <Stack gap="md">
               {content.treatmentOptions.cards.map((t) => (

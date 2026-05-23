@@ -1,5 +1,5 @@
-import { DashboardOralIQPage } from '@/modules/dashboard/patient/presentation/pages/OralIQPageNew';
+import { PatientOralIQPage } from '@/modules/dashboard/patient/presentation/pages/OralIQPage';
 
 export default function OralIQRoute() {
-  return <DashboardOralIQPage />;
+  return <PatientOralIQPage />;
 }

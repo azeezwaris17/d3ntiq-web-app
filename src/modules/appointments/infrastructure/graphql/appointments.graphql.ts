@@ -136,7 +136,55 @@ export const GET_PROVIDER_APPOINTMENTS = gql`
       patientNotes
       providerNotes
       cancellationReason
+      cancelledBy
+      cancelledAt
       createdAt
+      updatedAt
+    }
+  }
+`;
+
+/** Provider accepts a pending appointment → status becomes CONFIRMED */
+export const ACCEPT_APPOINTMENT = gql`
+  mutation AcceptAppointment($appointmentId: String!) {
+    acceptAppointment(appointmentId: $appointmentId) {
+      id
+      status
+      updatedAt
+    }
+  }
+`;
+
+/** Provider declines a pending appointment → status becomes CANCELLED */
+export const DECLINE_APPOINTMENT = gql`
+  mutation DeclineAppointment($input: DeclineAppointmentInput!) {
+    declineAppointment(input: $input) {
+      id
+      status
+      cancellationReason
+      cancelledBy
+      cancelledAt
+    }
+  }
+`;
+
+/** Provider marks a confirmed appointment as completed */
+export const COMPLETE_APPOINTMENT = gql`
+  mutation CompleteAppointment($appointmentId: String!) {
+    completeAppointment(appointmentId: $appointmentId) {
+      id
+      status
+      updatedAt
+    }
+  }
+`;
+
+/** Provider marks a confirmed appointment as no-show */
+export const MARK_APPOINTMENT_NO_SHOW = gql`
+  mutation MarkAppointmentNoShow($appointmentId: String!) {
+    markAppointmentNoShow(appointmentId: $appointmentId) {
+      id
+      status
       updatedAt
     }
   }

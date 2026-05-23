@@ -3,13 +3,14 @@
  *
  * Single Apollo Client instance with:
  * - Auth link: attaches JWT token to every request automatically
- * - Error link: handles 401 UNAUTHENTICATED by refreshing the token and retrying
+ * - Error link: handles 401 UNAUTHENTICATED (refresh + retry) and 403 FORBIDDEN (role mismatch)
  * - HTTP link: sends requests to the GraphQL endpoint
  */
 
 import { ApolloClient, InMemoryCache, HttpLink, from, Observable } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import { CombinedGraphQLErrors } from '@apollo/client/errors';
 import * as MantineNotifications from '@mantine/notifications';
 
 const GRAPHQL_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL || 'http://localhost:4000/graphql';
@@ -47,7 +48,7 @@ async function refreshAccessToken(): Promise<string | null> {
 
   const p = (async (): Promise<string | null> => {
     try {
-      // Try cookie-based refresh first
+      // Cookie-based refresh — the httpOnly refresh_token cookie is sent automatically
       const resp = await fetch(`${API_BASE_URL}/auth/refresh`, {
         method: 'POST',
         credentials: 'include',
@@ -55,9 +56,9 @@ async function refreshAccessToken(): Promise<string | null> {
       });
 
       if (resp.ok) {
-        const json = await resp.json().catch(() => null);
-        const accessToken = json?.accessToken ?? json?.data?.accessToken ?? null;
-        const expiresIn = json?.expiresIn ?? json?.data?.expiresIn ?? null;
+        const json = await resp.json().catch(() => null) as Record<string, unknown> | null;
+        const accessToken = typeof json?.accessToken === 'string' ? json.accessToken : null;
+        const expiresIn = typeof json?.expiresIn === 'number' ? json.expiresIn : null;
 
         if (accessToken) {
           localStorage.setItem('accessToken', accessToken);
@@ -69,36 +70,9 @@ async function refreshAccessToken(): Promise<string | null> {
         }
       }
 
-      // Fallback: GraphQL mutation with refresh token from localStorage
-      const refreshToken = localStorage.getItem('refreshToken');
-      if (!refreshToken) throw new Error('No refresh token available');
-
-      const response = await fetch(GRAPHQL_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          query: `mutation RefreshToken($input: RefreshTokenInput!) {
-            refreshToken(input: $input) { accessToken expiresIn }
-          }`,
-          variables: { input: { refreshToken } },
-        }),
-      });
-
-      const result = await response.json();
-      if (result.errors?.length || !result.data?.refreshToken) {
-        throw new Error('Token refresh failed');
-      }
-
-      const { accessToken, expiresIn } = result.data.refreshToken;
-      localStorage.setItem('accessToken', accessToken);
-      if (expiresIn) {
-        localStorage.setItem('tokenExpiresAt', String(Date.now() + expiresIn * 1000));
-      }
-      sessionExpiredNotified = false;
-      return accessToken;
-    } catch (err) {
-      console.error('Token refresh failed:', err);
+      // Refresh failed — session is expired
+      throw new Error('Token refresh failed');
+    } catch (_err) {
       return null;
     }
   })();
@@ -126,23 +100,61 @@ function handleSessionExpired() {
     sessionStorage.setItem('redirectAfterLogin', currentPath);
   }
 
-  // Clear tokens
+  // Clear tokens and role
   localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
   localStorage.removeItem('tokenExpiresAt');
+  localStorage.removeItem('userRole');
 
   setTimeout(() => {
     window.location.href = '/login';
   }, 1200);
 }
 
-// ── Error Link — auto-refresh on 401, then retry ──────────────────────────────
+/**
+ * Handles a FORBIDDEN (403) response — the token is valid but the user's role
+ * does not have permission for this operation.
+ *
+ * Most common cause: a provider's token is in localStorage while the patient
+ * dashboard is open (or vice versa). Clear the stale token and redirect to
+ * the correct login page so the user can sign in with the right account.
+ */
+function handleForbidden() {
+  if (typeof window === 'undefined') return;
+
+  // Read the stored role to redirect to the right login page
+  const storedRole = localStorage.getItem('userRole') ?? 'patient';
+  const loginPath = storedRole === 'PROVIDER' ? '/login?role=provider' : '/login?role=patient';
+
+  MantineNotifications.notifications.show({
+    title: 'Access Denied',
+    message: 'Your session does not have permission for this action. Please log in again.',
+    color: 'red',
+    autoClose: 5000,
+  });
+
+  // Clear all auth state
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('tokenExpiresAt');
+  localStorage.removeItem('userRole');
+  document.cookie = 'dentiq_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  document.cookie = 'dentiq_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+
+  setTimeout(() => {
+    window.location.href = loginPath;
+  }, 1500);
+}
+
+// ── Error Link — auto-refresh on 401, redirect on 403 ────────────────────────
 
 const errorLink = onError((errorResponse) => {
-  const { graphQLErrors, networkError, operation, forward } = errorResponse as any;
-  if (graphQLErrors) {
-    for (const { extensions } of graphQLErrors) {
-      if (extensions?.code === 'UNAUTHENTICATED') {
+  const { error, operation, forward } = errorResponse;
+
+  // GraphQL errors (UNAUTHENTICATED / FORBIDDEN extension codes)
+  if (CombinedGraphQLErrors.is(error)) {
+    for (const gqlError of error.errors) {
+      const code = gqlError.extensions?.code as string | undefined;
+
+      if (code === 'UNAUTHENTICATED') {
         return new Observable((observer) => {
           refreshAccessToken()
             .then((newToken) => {
@@ -168,11 +180,17 @@ const errorLink = onError((errorResponse) => {
             });
         });
       }
+
+      if (code === 'FORBIDDEN') {
+        handleForbidden();
+        return;
+      }
     }
   }
 
-  if (networkError) {
-    console.error('Network error:', networkError);
+  // Network / other errors
+  if (error) {
+    console.error('Apollo error:', error);
   }
 
   return undefined;
@@ -209,6 +227,5 @@ export function isTokenExpired(): boolean {
 export function clearAuthTokens(): void {
   if (typeof window === 'undefined') return;
   localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
   localStorage.removeItem('tokenExpiresAt');
 }

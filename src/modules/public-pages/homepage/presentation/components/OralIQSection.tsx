@@ -31,7 +31,7 @@ const STEP_META: Record<number, { title: string; subtitle?: string; description:
   0: { title: 'Dental Assessment', description: 'Select the tooth or gum area where you are experiencing symptoms. You can select multiple areas.' },
   1: { title: 'Symptom Assessment', subtitle: 'Describe Your Symptoms', description: '' },
   2: { title: 'Matched Conditions', description: '' },
-  3: { title: 'Treatment Options', description: '' },
+  3: { title: 'Possible Treatment Options', description: '' },
   4: { title: 'Personalized Recommendations', description: '' },
 };
 

@@ -42,6 +42,15 @@ export interface RegisteredProvider {
   isVerified: true;
   /** Source identifier */
   source: 'd3ntiq';
+  /**
+   * Whether the provider is currently open based on their saved working hours.
+   * null = no working hours set yet (badge is hidden).
+   */
+  isOpenNow: boolean | null;
+  /**
+   * Provider rating — always 5.0 for D3NTIQ-registered providers.
+   */
+  rating: number;
 }
 
 export interface NearbyProvidersRequest {

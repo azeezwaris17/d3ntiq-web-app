@@ -17,7 +17,22 @@ const IDLE_COLOR = '#4a5568';
 
 export function DashboardNavItem({ item, onNavigate }: DashboardNavItemProps) {
   const pathname = usePathname();
-  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+
+  /**
+   * Active state rules:
+   *
+   * For the root dashboard item (e.g. /patient or /provider) we use EXACT match
+   * only. Without this, /patient would also be "active" when on /patient/oral-iq
+   * because startsWith('/patient') is true for every patient page.
+   *
+   * For all other items (e.g. /patient/appointments) we use startsWith so that
+   * sub-routes like /patient/appointments/123 also highlight the parent item.
+   */
+  const isDashboardRoot = item.href === '/patient' || item.href === '/provider';
+  const isActive = isDashboardRoot
+    ? pathname === item.href
+    : pathname === item.href || pathname.startsWith(item.href + '/');
+
   const Icon = item.icon;
 
   return (

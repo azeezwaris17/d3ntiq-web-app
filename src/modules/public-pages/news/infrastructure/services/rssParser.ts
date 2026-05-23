@@ -7,6 +7,13 @@
 import { XMLParser } from 'fast-xml-parser';
 import type { NewsArticle, NewsSource, NewsCategory } from '../../domain/entities/NewsArticle';
 
+// Server-side logger — safe to use in Next.js API routes and Server Components
+const log = {
+  info: (msg: string) => process.env.NODE_ENV !== 'production' && process.stdout.write(`[RSS] ${msg}\n`),
+  warn: (msg: string) => process.stderr.write(`[RSS WARN] ${msg}\n`),
+  error: (msg: string, err?: unknown) => process.stderr.write(`[RSS ERROR] ${msg}${err ? `: ${String(err)}` : ''}\n`),
+};
+
 interface RSSFeed {
   rss?: {
     channel: RSSChannel;
@@ -70,7 +77,7 @@ const parser = new XMLParser(parserOptions);
  */
 export async function parseRSSFeed(rssUrl: string, source: NewsSource): Promise<NewsArticle[]> {
   try {
-    console.log(`Fetching RSS feed from ${source.name}: ${rssUrl}`);
+    log.info(`Fetching RSS feed from ${source.name}: ${rssUrl}`);
 
     const response = await fetch(rssUrl, {
       next: { revalidate: 21600 }, // Cache for 6 hours
@@ -92,11 +99,9 @@ export async function parseRSSFeed(rssUrl: string, source: NewsSource): Promise<
       // Silently skip sources that return 403 or other errors
       // This is expected for some sources that block automated requests
       if (response.status === 403) {
-        console.warn(`RSS feed from ${source.name} blocked (403 Forbidden) - skipping`);
+        log.warn(`RSS feed from ${source.name} blocked (403 Forbidden) - skipping`);
       } else {
-        console.warn(
-          `Failed to fetch RSS feed from ${source.name}: ${response.status} ${response.statusText}`
-        );
+        log.warn(`Failed to fetch RSS feed from ${source.name}: ${response.status} ${response.statusText}`);
       }
       return [];
     }
@@ -114,10 +119,10 @@ export async function parseRSSFeed(rssUrl: string, source: NewsSource): Promise<
       return parseAtomFeed(feedData.feed, source);
     }
 
-    console.warn(`Unknown feed format from ${source.name}`);
+    log.warn(`Unknown feed format from ${source.name}`);
     return [];
   } catch (error) {
-    console.error(`Error parsing RSS feed from ${source.name}:`, error);
+    log.error(`Error parsing RSS feed from ${source.name}`, error);
     return [];
   }
 }
@@ -212,7 +217,7 @@ function parseRSSItem(item: RSSItem, source: NewsSource, index: number): NewsArt
       readCount: 0,
     };
   } catch (error) {
-    console.error('Error parsing RSS item:', error);
+    log.error('Error parsing RSS item', error);
     return null;
   }
 }
@@ -265,7 +270,7 @@ function parseAtomEntry(entry: AtomEntry, source: NewsSource, index: number): Ne
       readCount: 0,
     };
   } catch (error) {
-    console.error('Error parsing Atom entry:', error);
+    log.error('Error parsing Atom entry', error);
     return null;
   }
 }
@@ -454,10 +459,7 @@ export async function fetchAllRSSFeeds(sources: NewsSource[]): Promise<NewsArtic
   // Filter out sources without RSS URLs
   const validSources = sources.filter((source) => source.rssUrl && source.rssUrl.length > 0);
 
-  console.log(
-    `Fetching from ${validSources.length} RSS sources:`,
-    validSources.map((s) => s.name)
-  );
+  log.info(`Fetching from ${validSources.length} RSS sources: ${validSources.map((s) => s.name).join(', ')}`);
 
   const feedPromises = validSources.map((source) => parseRSSFeed(source.rssUrl!, source));
 
@@ -466,14 +468,14 @@ export async function fetchAllRSSFeeds(sources: NewsSource[]): Promise<NewsArtic
   const allArticles: NewsArticle[] = [];
   results.forEach((result, index) => {
     if (result.status === 'fulfilled') {
-      console.log(`✓ ${validSources[index].name}: ${result.value.length} articles`);
+      log.info(`✓ ${validSources[index]!.name}: ${result.value.length} articles`);
       allArticles.push(...result.value);
     } else {
-      console.error(`✗ ${validSources[index].name}: ${result.reason}`);
+      log.error(`✗ ${validSources[index]!.name}`, result.reason);
     }
   });
 
-  console.log(`Total articles fetched: ${allArticles.length}`);
+  log.info(`Total articles fetched: ${allArticles.length}`);
 
   // Sort by publication date (newest first)
   allArticles.sort((a, b) => b.publishedDate.getTime() - a.publishedDate.getTime());

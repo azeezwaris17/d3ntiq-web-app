@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client/react';
 import { REGISTER_PRACTICE } from '../services/practice-registration-queries';
 
 export interface RegisterPracticeInput {
+  fullName: string;
   workEmail: string;
   phone: string;
   specialty: string;

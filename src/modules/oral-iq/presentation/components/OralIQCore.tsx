@@ -65,7 +65,7 @@ const STEP_META: Record<number, { title: string; subtitle?: string; description:
     description: '',
   },
   3: {
-    title: 'Treatment Options',
+    title: 'Possible Treatment Options',
     description: '',
   },
   4: {
@@ -204,14 +204,16 @@ export const OralIQCore: React.FC<OralIQCoreProps> = ({
           stepHandlers.set(2);
           if (onStepChange) onStepChange(2, { formData: data });
         })
-        .catch((err) => console.error('Failed to process assessment:', err));
+        .catch((_err) => {
+          // Error is already shown via the error/validationErrors state — no action needed here
+        });
     },
     [loading, selection, submitAssessment, stepHandlers, result, shouldReassess, onStepChange]
   );
 
   const handleStep4Complete = useCallback(() => {
     if (!selection || !savedFormData || !result) {
-      console.error('Cannot complete: missing required data');
+      // Missing data — this should not happen in normal flow; silently return
       return;
     }
 

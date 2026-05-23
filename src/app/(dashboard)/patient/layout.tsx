@@ -7,7 +7,7 @@ import { AuthGuard } from '@/modules/dashboard/layout/components/AuthGuard';
 export default function PatientDashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard role="patient">
-      <DashboardLayout role="patient" notificationCount={3}>
+      <DashboardLayout role="patient">
         {children}
       </DashboardLayout>
     </AuthGuard>

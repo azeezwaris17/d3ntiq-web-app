@@ -146,6 +146,7 @@ export function PatientOralIQPage() {
         date: new Date(draft.bookingData.date),
         time: draft.bookingData.time,
         appointmentType: draft.bookingData.appointmentType,
+        patientNotes: draft.bookingData.patientNotes ?? '',
       });
     }
 
@@ -193,8 +194,8 @@ export function PatientOralIQPage() {
           },
         },
       });
-    } catch (error) {
-      console.error('Failed to save draft:', error);
+    } catch {
+      // Draft save failure is non-critical — silently continue
     }
   }
 
@@ -219,6 +220,24 @@ export function PatientOralIQPage() {
       if (session.bookingProvider) setInitialProvider(session.bookingProvider);
       if (session.providerSearchQuery) setInitialQuery(session.providerSearchQuery);
       if (session.providerSearchResults) setInitialResults(session.providerSearchResults);
+
+      /**
+       * Advance the wizard to the correct phase based on what was saved.
+       *
+       * When a patient comes from the public Oral IQ → provider search → login
+       * flow, the session has a bookingProvider already selected. We jump
+       * straight to 'provider-search' so they see their provider pre-highlighted
+       * and can immediately proceed to booking — no need to redo the assessment.
+       *
+       * If only assessment data is present (no provider yet), stay on 'oral-iq'
+       * so the patient can continue from where they left off.
+       */
+      if (session.bookingProvider || session.providerSearchResults?.length) {
+        setPhase('provider-search');
+        if (session.bookingProvider) {
+          setBookingProvider(session.bookingProvider);
+        }
+      }
     }
   }, [isDraftMode]);
 
@@ -248,7 +267,7 @@ export function PatientOralIQPage() {
     await createAppointmentMutation({
       variables: {
         input: {
-          providerId: bookingProvider.id || 'provider-id-placeholder',
+          providerId: bookingProvider.id || `external-${bookingProvider.name.replace(/\s+/g, '-').toLowerCase()}`,
           appointmentDate: bookingData.date.toISOString(),
           appointmentTime: bookingData.time,
           type: bookingData.appointmentType.toUpperCase().replace(/[\s-]/g, '_'),
@@ -265,6 +284,8 @@ export function PatientOralIQPage() {
             result: currentResult,
           },
           reminderPreference: 'EMAIL',
+          // Patient notes typed in the booking step — visible to the provider
+          patientNotes: bookingData.patientNotes || undefined,
         },
       },
     });

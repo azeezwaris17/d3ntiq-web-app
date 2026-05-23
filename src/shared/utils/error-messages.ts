@@ -5,9 +5,6 @@
  * It maps technical error messages to messages that users can understand.
  */
 
-/**
- * Maps technical error messages to user-friendly messages
- */
 export function getUserFriendlyErrorMessage(error: Error | string | null | undefined): string {
   if (!error) {
     return 'An unexpected error occurred. Please try again.';

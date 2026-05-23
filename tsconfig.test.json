@@ -1,0 +1,16 @@
+{
+  // Extends the main tsconfig but includes test files so the editor
+  // can resolve @/ path aliases inside the tests/ folder.
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "next-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
+}

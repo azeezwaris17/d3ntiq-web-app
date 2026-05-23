@@ -13,7 +13,7 @@
 import { injectable } from 'tsyringe';
 import { ContactRepository } from '../../domain/repositories/ContactRepository';
 import { ContactFormData, ContactPageContent } from '../../domain/entities/ContactFormData';
-import { apolloClient } from '@/core/config/graphql.config';
+import { apolloClient } from '@/core/graphql/apollo-client';
 import { SUBMIT_CONTACT_FORM_MUTATION } from '@/core/graphql';
 import { logger, trackError } from '@/core/logging';
 import { contactData } from '../data/contactData';

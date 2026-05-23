@@ -12,7 +12,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_API_URL: z
     .string()
     .url('NEXT_PUBLIC_API_URL must be a valid URL')
-    .default('http://localhost:3000'),
+    .default('http://localhost:4000'),
   NEXT_PUBLIC_GRAPHQL_ENDPOINT: z.string().default('/graphql'),
 });
 

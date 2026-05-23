@@ -44,11 +44,12 @@ export function AuthGuard({ role, children }: AuthGuardProps) {
       }
     }
 
-    // Profile loaded — verify the role matches
+    // Profile loaded — verify the role matches the dashboard being accessed
     if (profile && !loading) {
       const profileRole = profile.role.toLowerCase() as DashboardRole;
       if (profileRole !== role) {
-        router.replace(profileRole === 'provider' ? '/provider/profile' : '/patient/oral-iq');
+        // Wrong role — send them to their own dashboard home
+        router.replace(profileRole === 'provider' ? '/provider' : '/patient');
       }
     }
   }, [profile, loading, error, role, router, apolloClient]);
